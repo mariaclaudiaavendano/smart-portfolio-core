@@ -10,7 +10,7 @@ que impide errores humanos de copiar/pegar.
 
 | Nombre | Rol | Usuario GitHub | Responsabilidad |
 |---|---|---|---|
-| _(nombre 1)_ | 🏗️ Arquitecto / Repository Owner | `@usuario1` | Repo, protección de `main`, estructura, code review y merges |
+| _Maria Claudia Avendaño_ | 🏗️ Arquitecto / Repository Owner | `@mariaclaudiaavendano` | Repo, protección de `main`, estructura, code review y merges |
 | _(nombre 2)_ | 💻 Developer 1 | `@usuario2` | `src/modelos.py` — `Instrumento` y `Posicion` |
 | _(nombre 3)_ | 💻 Developer 2 | `@usuario3` | `src/portafolio.py` y `src/reportes.py` |
 

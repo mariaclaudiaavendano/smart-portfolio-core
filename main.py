@@ -5,7 +5,7 @@ TODO(Arquitecto): completar tras el merge de feat/modelos y feat/logica.
 
 
 def main() -> None:
-    print("SmartPortfolio Core - esqueleto inicial listo ✅")
+    print("SmartPortfolio Core - esqueleto inicial listo")
 
 
 if __name__ == "__main__":
