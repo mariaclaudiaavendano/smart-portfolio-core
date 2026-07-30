@@ -12,7 +12,7 @@ que impide errores humanos de copiar/pegar.
 |---|---|---|---|
 | _Maria Claudia Avendaño_ | 🏗️ Arquitecto / Repository Owner | `@mariaclaudiaavendano` | Repo, protección de `main`, estructura, code review y merges |
 | _Karen Sofia Galindo_ | 💻 Developer 1 | `@karengalindob12` | `src/modelos.py` — `Instrumento` y `Posicion` |
-| _Beatriz Elena Pertuz_ | 💻 Developer 2 | `@usuario3` | `src/portafolio.py` y `src/reportes.py` |
+| _Beatriz Elena Pertuz_ | 💻 Developer 2 | `@Beatriz-23-dev` | `src/portafolio.py` y `src/reportes.py` |
 
 ---
 
