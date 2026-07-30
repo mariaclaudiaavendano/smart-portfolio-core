@@ -11,10 +11,8 @@ que impide errores humanos de copiar/pegar.
 | Nombre | Rol | Usuario GitHub | Responsabilidad |
 |---|---|---|---|
 | _Maria Claudia Avendaño_ | 🏗️ Arquitecto / Repository Owner | `@mariaclaudiaavendano` | Repo, protección de `main`, estructura, code review y merges |
-| _(nombre 2)_ | 💻 Developer 1 | `@usuario2` | `src/modelos.py` — `Instrumento` y `Posicion` |
-| _(nombre 3)_ | 💻 Developer 2 | `@usuario3` | `src/portafolio.py` y `src/reportes.py` |
-
-> ⚠️ Reemplacen los nombres y usuarios reales antes de entregar el link.
+| _Karen Sofia Galindo_ | 💻 Developer 1 | `@karengalindob12` | `src/modelos.py` — `Instrumento` y `Posicion` |
+| _Beatriz Elena Pertuz_ | 💻 Developer 2 | `@usuario3` | `src/portafolio.py` y `src/reportes.py` |
 
 ---
 
@@ -47,7 +45,7 @@ smart-portfolio/
 Requiere Python 3.10 o superior.
 
 ```bash
-git clone https://github.com/<usuario-arquitecto>/smart-portfolio-core.git
+git clone https://github.com/<mariaclaudiaavendano>/smart-portfolio-core.git
 cd smart-portfolio-core
 python main.py
 ```
