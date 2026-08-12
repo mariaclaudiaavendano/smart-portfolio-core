@@ -6,7 +6,7 @@ from src.portafolio import Portafolio
 class ReportadorFinanciero:
     """Genera reportes a partir de un portafolio."""
 
-    def generar_resumen(self, portafolio: Portafolio) -> str:
+    def imprimir_resumen(self, portafolio: Portafolio) -> str:
         """Genera un resumen textual del portafolio."""
         cantidad = portafolio.cantidad_posiciones()
 
