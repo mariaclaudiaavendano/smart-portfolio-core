@@ -1,4 +1,13 @@
-"""Capa de presentación de reportes (SRP).
+"""Capa de presentación de reportes (SRP)."""
 
-TODO(Dev 2 - rama feat/logica): implementar ReportadorFinanciero.
-"""
+from src.portafolio import Portafolio
+
+
+class ReportadorFinanciero:
+    """Genera reportes a partir de un portafolio."""
+
+    def imprimir_resumen(self, portafolio: Portafolio) -> str:
+        """Genera un resumen textual del portafolio."""
+        cantidad = portafolio.cantidad_posiciones()
+
+        return f"El portafolio contiene {cantidad} posiciones."
