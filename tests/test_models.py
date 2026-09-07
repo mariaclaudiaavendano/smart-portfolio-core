@@ -313,3 +313,12 @@ def test_reportador_financiero_con_varias_posiciones():
     resultado = reportador.imprimir_resumen(portafolio)
 
     assert resultado == "El portafolio contiene 2 posiciones."
+
+def test_main_ejecuta_integracion(capsys):
+    from main import main
+
+    main()
+
+    captured = capsys.readouterr()
+
+    assert "SmartPortfolio Core - Iniciando sistema..." in captured.out
