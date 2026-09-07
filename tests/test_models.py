@@ -81,6 +81,22 @@ def test_modificar_cantidad():
 
     assert posicion.cantidad == 15
 
+def test_modificar_cantidad_no_permite_negativos():
+    instrumento = Instrumento(
+        ticker="TSLA",
+        tipo="Acción",
+        sector="Tecnología",
+    )
+
+    posicion = Posicion(
+        instrumento=instrumento,
+        cantidad=10,
+        precio_entrada=200,
+    )
+
+    with pytest.raises(ValueError, match="La cantidad NO puede ser negativa."):
+        posicion.cantidad = -1
+
 
 def test_calcular_valor_actual():
     instrumento = Instrumento(
@@ -99,10 +115,36 @@ def test_calcular_valor_actual():
 
     assert resultado == 2500
 
-def test_portafolio_vacio():
-        portafolio = Portafolio()
+def test_calcular_valor_actual_con_precio_cero():
+    instrumento = Instrumento(
+        ticker="TSLA",
+        tipo="Acción",
+        sector="Tecnología",
+    )
 
-        assert portafolio.cantidad_posiciones() == 0
+    posicion = Posicion(
+        instrumento=instrumento,
+        cantidad=10,
+        precio_entrada=200,
+    )
+
+    resultado = posicion.calcular_valor_actual(0)
+
+    assert resultado == 0
+
+def test_posicion_permite_cantidad_cero(instrumento_test):
+    posicion = Posicion(
+        instrumento=instrumento_test,
+        cantidad=0,
+        precio_entrada=100.0,
+    )
+
+    assert posicion.cantidad == 0
+
+def test_portafolio_vacio():
+    portafolio = Portafolio()
+
+    assert portafolio.cantidad_posiciones() == 0
 
 
 def test_agregar_posicion():
@@ -143,6 +185,24 @@ def test_eliminar_posicion():
     portafolio.eliminar_posicion(posicion)
 
     assert portafolio.cantidad_posiciones() == 0
+
+def test_eliminar_posicion_inexistente():
+    portafolio = Portafolio()
+
+    instrumento = Instrumento(
+        ticker="TSLA",
+        tipo="Acción",
+        sector="Tecnología",
+    )
+
+    posicion = Posicion(
+        instrumento=instrumento,
+        cantidad=10,
+        precio_entrada=200,
+    )
+
+    with pytest.raises(ValueError):
+        portafolio.eliminar_posicion(posicion)
 
 def test_reportador_financiero_portafolio_vacio():
     portafolio = Portafolio()
@@ -185,3 +245,71 @@ def test_agregar_varias_posiciones():
     assert portafolio.cantidad_posiciones() == 2
     assert posicion1 in portafolio.posiciones
     assert posicion2 in portafolio.posiciones
+
+def test_posiciones_devuelve_una_copia():
+    portafolio = Portafolio()
+
+    instrumento = Instrumento(
+        ticker="TSLA",
+        tipo="Acción",
+        sector="Tecnología",
+    )
+
+    posicion = Posicion(
+        instrumento=instrumento,
+        cantidad=10,
+        precio_entrada=200,
+    )
+
+    portafolio.agregar_posicion(posicion)
+
+    posiciones = portafolio.posiciones
+    posiciones.clear()
+
+    assert portafolio.cantidad_posiciones() == 1
+
+def test_reportador_financiero_con_una_posicion(instrumento_test):
+
+
+    portafolio = Portafolio()
+    posicion = Posicion(
+        instrumento_test,
+        cantidad=10,
+        precio_entrada=100
+    )
+
+    portafolio.agregar_posicion(posicion)
+
+    reportador = ReportadorFinanciero()
+    resultado = reportador.imprimir_resumen(portafolio)
+
+    assert resultado == "El portafolio contiene 1 posiciones."
+
+def test_reportador_financiero_con_varias_posiciones():
+    instrumento_1 = Instrumento(
+        ticker="TSLA",
+        tipo="Acción",
+        sector="Tecnología",
+    )
+
+    instrumento_2 = Instrumento(
+        ticker="AAPL",
+        tipo="Acción",
+        sector="Tecnología",
+    )
+
+    portafolio = Portafolio()
+
+    portafolio.agregar_posicion(
+        Posicion(instrumento_1, cantidad=10, precio_entrada=200)
+    )
+
+    portafolio.agregar_posicion(
+        Posicion(instrumento_2, cantidad=5, precio_entrada=150)
+    )
+
+    reportador = ReportadorFinanciero()
+
+    resultado = reportador.imprimir_resumen(portafolio)
+
+    assert resultado == "El portafolio contiene 2 posiciones."
