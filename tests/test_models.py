@@ -45,8 +45,8 @@ def test_crear_posicion():
     )
 
     assert posicion.instrumento == instrumento
-    assert posicion.cantidad == 10
-    assert posicion.precio_entrada == 200
+    assert posicion.cantidad == pytest.approx(10)
+    assert posicion.precio_entrada == pytest.approx(200)
 
 
 def test_posicion_no_permite_cantidad_negativa():
@@ -79,7 +79,7 @@ def test_modificar_cantidad():
 
     posicion.cantidad = 15
 
-    assert posicion.cantidad == 15
+    assert posicion.cantidad == pytest.approx(15)
 
 def test_modificar_cantidad_no_permite_negativos():
     instrumento = Instrumento(
@@ -98,39 +98,17 @@ def test_modificar_cantidad_no_permite_negativos():
         posicion.cantidad = -1
 
 
-def test_calcular_valor_actual():
-    instrumento = Instrumento(
-        ticker="TSLA",
-        tipo="Acción",
-        sector="Tecnología",
-    )
-
-    posicion = Posicion(
-        instrumento=instrumento,
-        cantidad=10,
-        precio_entrada=200,
-    )
-
-    resultado = posicion.calcular_valor_actual(250)
-
-    assert resultado == 2500
-
-def test_calcular_valor_actual_con_precio_cero():
-    instrumento = Instrumento(
-        ticker="TSLA",
-        tipo="Acción",
-        sector="Tecnología",
-    )
-
-    posicion = Posicion(
-        instrumento=instrumento,
-        cantidad=10,
-        precio_entrada=200,
-    )
-
-    resultado = posicion.calcular_valor_actual(0)
-
-    assert resultado == 0
+@pytest.mark.parametrize(
+    "precio_mercado, esperado",
+    [
+        (250, 2500),
+        (0, 0),
+        (100, 1000),
+    ],
+)
+def test_calcular_valor_actual(precio_mercado, esperado, instrumento_test):
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=200)
+    assert posicion.calcular_valor_actual(precio_mercado) == pytest.approx(esperado)
 
 def test_posicion_permite_cantidad_cero(instrumento_test):
     posicion = Posicion(
@@ -139,12 +117,12 @@ def test_posicion_permite_cantidad_cero(instrumento_test):
         precio_entrada=100.0,
     )
 
-    assert posicion.cantidad == 0
+    assert posicion.cantidad == pytest.approx(0)
 
 def test_portafolio_vacio():
     portafolio = Portafolio()
 
-    assert portafolio.cantidad_posiciones() == 0
+    assert portafolio.cantidad_posiciones() == pytest.approx(0)
 
 
 def test_agregar_posicion():
@@ -163,7 +141,7 @@ def test_agregar_posicion():
     portafolio = Portafolio()
     portafolio.agregar_posicion(posicion)
 
-    assert portafolio.cantidad_posiciones() == 1
+    assert portafolio.cantidad_posiciones() == pytest.approx(1)
     assert posicion in portafolio.posiciones
 
 
@@ -184,7 +162,7 @@ def test_eliminar_posicion():
     portafolio.agregar_posicion(posicion)
     portafolio.eliminar_posicion(posicion)
 
-    assert portafolio.cantidad_posiciones() == 0
+    assert portafolio.cantidad_posiciones() == pytest.approx(0)
 
 def test_eliminar_posicion_inexistente():
     portafolio = Portafolio()
@@ -242,7 +220,7 @@ def test_agregar_varias_posiciones():
     portafolio.agregar_posicion(posicion1)
     portafolio.agregar_posicion(posicion2)
 
-    assert portafolio.cantidad_posiciones() == 2
+    assert portafolio.cantidad_posiciones() == pytest.approx(2)
     assert posicion1 in portafolio.posiciones
     assert posicion2 in portafolio.posiciones
 
@@ -266,14 +244,14 @@ def test_posiciones_devuelve_una_copia():
     posiciones = portafolio.posiciones
     posiciones.clear()
 
-    assert portafolio.cantidad_posiciones() == 1
+    assert portafolio.cantidad_posiciones() == pytest.approx(1)
 
 def test_reportador_financiero_con_una_posicion(instrumento_test):
 
 
     portafolio = Portafolio()
     posicion = Posicion(
-        instrumento_test,
+        instrumento=instrumento_test,
         cantidad=10,
         precio_entrada=100
     )
