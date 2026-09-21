@@ -40,3 +40,11 @@ class Posicion:
     def calcular_valor_actual(self, precio_mercado: float) -> float:
         """Calcula el valor actual multiplicando cantidad por precio de mercado."""
         return self.cantidad * precio_mercado
+
+
+    def calcular_ganancia_no_realizada(self, precio_actual: float) -> float:
+        """Calcula la ganancia o pérdida no realizada.
+        
+        Fórmula: (precio_actual - precio_entrada) × cantidad
+        """
+        return (precio_actual - self.precio_entrada) * self.cantidad
