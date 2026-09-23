@@ -55,3 +55,23 @@ def test_cantidad_cero_es_valida(instrumento_test):
         precio_entrada=100,
     )
     assert posicion.cantidad == pytest.approx(0)
+
+
+# E) Tests de reportes
+def test_reportador_portafolio_vacio(portafolio_vacio):
+    from src.reportes import ReportadorFinanciero
+    reportador = ReportadorFinanciero()
+    resultado = reportador.imprimir_resumen(portafolio_vacio)
+    assert resultado == "El portafolio contiene 0 posiciones."
+
+
+def test_reportador_con_una_posicion(instrumento_test):
+    from src.reportes import ReportadorFinanciero
+    from src.portafolio import Portafolio
+    from src.modelos import Posicion
+    portafolio = Portafolio()
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
+    portafolio.agregar_posicion(posicion)
+    reportador = ReportadorFinanciero()
+    resultado = reportador.imprimir_resumen(portafolio)
+    assert resultado == "El portafolio contiene 1 posiciones."
