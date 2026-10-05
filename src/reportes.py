@@ -1,5 +1,9 @@
 """Capa de presentación de reportes (SRP)."""
 
+import csv
+import json
+from pathlib import Path
+
 from src.portafolio import Portafolio
 
 
@@ -27,3 +31,37 @@ class ReportadorFinanciero:
 
         lineas.append("=" * 40)
         return "\n".join(lineas)
+
+    def exportar_json(self, portafolio: Portafolio, ruta: str = "portafolio.json") -> None:
+        """Exporta el portafolio a un archivo JSON."""
+        datos = []
+        for posicion in portafolio.posiciones:
+            datos.append({
+                "ticker": posicion.instrumento.ticker,
+                "tipo": posicion.instrumento.tipo,
+                "sector": posicion.instrumento.sector,
+                "cantidad": posicion.cantidad,
+                "precio_entrada": posicion.precio_entrada,
+                "costo_total": posicion.cantidad * posicion.precio_entrada,
+            })
+        with open(ruta, "w", encoding="utf-8") as f:
+            json.dump(datos, f, indent=2, ensure_ascii=False)
+        print(f"✅ Portafolio exportado a {ruta}")
+
+    def exportar_csv(self, portafolio: Portafolio, ruta: str = "portafolio.csv") -> None:
+        """Exporta el portafolio a un archivo CSV."""
+        with open(ruta, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=[
+                "ticker", "tipo", "sector", "cantidad", "precio_entrada", "costo_total"
+            ])
+            writer.writeheader()
+            for posicion in portafolio.posiciones:
+                writer.writerow({
+                    "ticker": posicion.instrumento.ticker,
+                    "tipo": posicion.instrumento.tipo,
+                    "sector": posicion.instrumento.sector,
+                    "cantidad": posicion.cantidad,
+                    "precio_entrada": posicion.precio_entrada,
+                    "costo_total": posicion.cantidad * posicion.precio_entrada,
+                })
+        print(f"✅ Portafolio exportado a {ruta}")
