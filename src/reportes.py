@@ -11,3 +11,4 @@ class ReportadorFinanciero:
         cantidad = portafolio.cantidad_posiciones()
 
         return f"El portafolio contiene {cantidad} posiciones."
+    

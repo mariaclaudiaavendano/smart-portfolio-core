@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "smart-portfolio-core"
+version = "0.1.0"
+description = "Backend para gestión inteligente de portafolios de inversión"
+authors = ["Maria Claudia Avendaño"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.0"
+numpy = "^1.24"
+scikit-learn = "^1.3"
+yfinance = "^0.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0"
+pytest-cov = "^7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

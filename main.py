@@ -1,7 +1,4 @@
-"""Script de prueba de integración de SmartPortfolio.
-
-TODO(Arquitecto): completar tras el merge de feat/modelos y feat/logica.
-"""
+"""Script de prueba de integración de SmartPortfolio."""
 
 from src.modelos import Instrumento, Posicion
 from src.portafolio import Portafolio
@@ -15,7 +12,7 @@ def main() -> None:
     apple = Instrumento(ticker="AAPL", tipo="Acción", sector="Tecnología")
     tesoro = Instrumento(ticker="US10Y", tipo="Bono", sector="Gobierno")
 
-    # 2. Crear Operaciones (Con validación automática de cantidad >= 0)
+    # 2. Crear Posiciones (con validación automática de cantidad >= 0)
     pos1 = Posicion(instrumento=apple, cantidad=10, precio_entrada=150)
     pos2 = Posicion(instrumento=tesoro, cantidad=5, precio_entrada=100)
 
@@ -26,9 +23,7 @@ def main() -> None:
 
     # 4. Reportar (SOLID en acción)
     reportador = ReportadorFinanciero()
-    
-    # Usamos imprimir_resumen tal como lo pide la rúbrica
-    reportador.imprimir_resumen(fondo)
+    print(reportador.imprimir_resumen(fondo))
 
 
 if __name__ == "__main__":
