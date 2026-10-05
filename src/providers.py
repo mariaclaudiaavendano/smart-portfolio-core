@@ -47,4 +47,3 @@ class MockDataProvider:
 
     def obtener_precio_actual(self, ticker: str) -> float:
         return self.precios[-1]
-

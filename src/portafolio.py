@@ -3,6 +3,11 @@
 from src.modelos import Posicion
 
 
+class PosicionNoExisteError(Exception):
+    """Se lanza cuando se opera sobre una posición que no existe."""
+    pass
+
+
 class Portafolio:
     """Gestiona una colección de posiciones financieras."""
 
@@ -21,7 +26,21 @@ class Portafolio:
 
     def eliminar_posicion(self, posicion: Posicion) -> None:
         """Elimina una posición del portafolio."""
+        if posicion not in self._posiciones:
+            raise PosicionNoExisteError(
+                f"La posición no existe en el portafolio."
+            )
         self._posiciones.remove(posicion)
+
+    def remover_posicion(self, ticker: str) -> None:
+        """Elimina una posición por ticker."""
+        for posicion in self._posiciones:
+            if posicion.instrumento.ticker == ticker:
+                self._posiciones.remove(posicion)
+                return
+        raise PosicionNoExisteError(
+            f"No existe posición para el ticker '{ticker}'."
+        )
 
     def cantidad_posiciones(self) -> int:
         """Devuelve el número de posiciones del portafolio."""
