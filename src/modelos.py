@@ -41,3 +41,14 @@ class Posicion:
         Fórmula: (precio_actual - precio_entrada) × cantidad
         """
         return (precio_actual - self.precio_entrada) * self.cantidad
+
+    @property
+    def alerta_riesgo(self) -> bool:
+        """True si la pérdida supera el 10% del costo de entrada."""
+        if not hasattr(self.instrumento, 'provider'):
+            return False
+        precio_actual = self.instrumento.provider.obtener_precio_actual(
+            self.instrumento.ticker
+        )
+        perdida_pct = (precio_actual - self.precio_entrada) / self.precio_entrada * 100
+        return perdida_pct < -10
