@@ -17,12 +17,12 @@ class ReportadorFinanciero:
         ]
 
         for posicion in portafolio.posiciones:
-            valor = posicion.calcular_valor_actual(posicion.precio_entrada)
+            costo_total = posicion.cantidad * posicion.precio_entrada
             lineas.append(
                 f"  - {posicion.instrumento.ticker}: "
                 f"{posicion.cantidad} unidades @ "
                 f"${posicion.precio_entrada:.2f} "
-                f"= ${valor:.2f}"
+                f"| Costo total: ${costo_total:.2f}"
             )
 
         lineas.append("=" * 40)
