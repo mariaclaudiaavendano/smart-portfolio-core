@@ -62,7 +62,7 @@ def test_reportador_portafolio_vacio(portafolio_vacio):
     from src.reportes import ReportadorFinanciero
     reportador = ReportadorFinanciero()
     resultado = reportador.imprimir_resumen(portafolio_vacio)
-    assert resultado == "El portafolio contiene 0 posiciones."
+    assert "Total de posiciones: 0" in resultado
 
 
 def test_reportador_con_una_posicion(instrumento_test):
@@ -74,4 +74,23 @@ def test_reportador_con_una_posicion(instrumento_test):
     portafolio.agregar_posicion(posicion)
     reportador = ReportadorFinanciero()
     resultado = reportador.imprimir_resumen(portafolio)
-    assert resultado == "El portafolio contiene 1 posiciones."
+    assert "Total de posiciones: 1" in resultado
+    assert "TSLA" in resultado
+
+def test_eliminar_posicion_existente(instrumento_test):
+    from src.portafolio import Portafolio
+    from src.modelos import Posicion
+    portafolio = Portafolio()
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
+    portafolio.agregar_posicion(posicion)
+    portafolio.eliminar_posicion(posicion)
+    assert portafolio.cantidad_posiciones() == 0
+
+
+def test_eliminar_posicion_inexistente_lanza_error(instrumento_test):
+    from src.portafolio import Portafolio, PosicionNoExisteError
+    from src.modelos import Posicion
+    portafolio = Portafolio()
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
+    with pytest.raises(PosicionNoExisteError):
+        portafolio.eliminar_posicion(posicion)
