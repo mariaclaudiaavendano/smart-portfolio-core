@@ -14,21 +14,13 @@ from src.portafolio import Portafolio, PosicionNoExisteError
         ( 50,  50,  7,    0),
     ],
 )
-def test_calculo_pnl(
-    precio_entrada,
-    precio_actual,
-    cantidad,
-    esperado,
-    instrumento_test,
-):
+def test_calculo_pnl(precio_entrada, precio_actual, cantidad, esperado, instrumento_test):
     posicion = Posicion(
         instrumento=instrumento_test,
         cantidad=cantidad,
         precio_entrada=precio_entrada,
     )
-    pnl = posicion.calcular_ganancia_no_realizada(
-        precio_actual=precio_actual
-    )
+    pnl = posicion.calcular_ganancia_no_realizada(precio_actual=precio_actual)
     assert pnl == pytest.approx(esperado)
 
 
@@ -38,26 +30,23 @@ def test_remover_activo_inexistente_lanza_error(portafolio_vacio):
         portafolio_vacio.remover_posicion(ticker="NFLX")
 
 
-# D) Tests adicionales para subir coverage
+# D) Tests adicionales
 def test_calcular_valor_actual(instrumento_test):
-    posicion = Posicion(
-        instrumento=instrumento_test,
-        cantidad=10,
-        precio_entrada=100,
-    )
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
     assert posicion.calcular_valor_actual(200) == pytest.approx(2000)
 
 
 def test_cantidad_cero_es_valida(instrumento_test):
-    posicion = Posicion(
-        instrumento=instrumento_test,
-        cantidad=0,
-        precio_entrada=100,
-    )
+    posicion = Posicion(instrumento=instrumento_test, cantidad=0, precio_entrada=100)
     assert posicion.cantidad == pytest.approx(0)
 
 
-# E) Tests de reportes
+def test_cantidad_negativa_lanza_error(instrumento_test):
+    with pytest.raises(ValueError, match="La cantidad NO puede ser negativa."):
+        Posicion(instrumento=instrumento_test, cantidad=-1, precio_entrada=100)
+
+
+# E) Tests de reportes — actualizados al nuevo formato
 def test_reportador_portafolio_vacio(portafolio_vacio):
     from src.reportes import ReportadorFinanciero
     reportador = ReportadorFinanciero()
