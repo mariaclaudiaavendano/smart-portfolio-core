@@ -1,8 +1,3 @@
-"""Modelos del dominio financiero.
-
-TODO(Dev 1 - rama feat/modelos): implementar Instrumento y Posicion.
-"""
-
 """Modelos de dominio financiero."""
 
 from dataclasses import dataclass
@@ -12,7 +7,7 @@ from dataclasses import dataclass
 class Instrumento:
     """Representa un instrumento financiero que no cambia."""
     ticker: str
-    tipo: str  # Ej: "Acción", "Bono"
+    tipo: str
     sector: str
 
 
@@ -21,8 +16,7 @@ class Posicion:
 
     def __init__(self, instrumento: Instrumento, cantidad: float, precio_entrada: float) -> None:
         self.instrumento = instrumento
-        # Usamos un atributo protegido y llamamos al setter para validar de una vez
-        self.cantidad = cantidad  
+        self.cantidad = cantidad
         self.precio_entrada = precio_entrada
 
     @property
@@ -41,10 +35,9 @@ class Posicion:
         """Calcula el valor actual multiplicando cantidad por precio de mercado."""
         return self.cantidad * precio_mercado
 
-
     def calcular_ganancia_no_realizada(self, precio_actual: float) -> float:
         """Calcula la ganancia o pérdida no realizada.
-        
+
         Fórmula: (precio_actual - precio_entrada) × cantidad
         """
         return (precio_actual - self.precio_entrada) * self.cantidad
