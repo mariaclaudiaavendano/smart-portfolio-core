@@ -65,3 +65,21 @@ def test_reportador_con_una_posicion(instrumento_test):
     resultado = reportador.imprimir_resumen(portafolio)
     assert "Total de posiciones: 1" in resultado
     assert "TSLA" in resultado
+
+def test_eliminar_posicion_existente(instrumento_test):
+    from src.portafolio import Portafolio
+    from src.modelos import Posicion
+    portafolio = Portafolio()
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
+    portafolio.agregar_posicion(posicion)
+    portafolio.eliminar_posicion(posicion)
+    assert portafolio.cantidad_posiciones() == 0
+
+
+def test_eliminar_posicion_inexistente_lanza_error(instrumento_test):
+    from src.portafolio import Portafolio, PosicionNoExisteError
+    from src.modelos import Posicion
+    portafolio = Portafolio()
+    posicion = Posicion(instrumento=instrumento_test, cantidad=10, precio_entrada=100)
+    with pytest.raises(PosicionNoExisteError):
+        portafolio.eliminar_posicion(posicion)
