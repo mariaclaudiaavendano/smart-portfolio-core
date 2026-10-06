@@ -29,6 +29,15 @@ def test_remover_activo_inexistente_lanza_error(portafolio_vacio):
     with pytest.raises(PosicionNoExisteError):
         portafolio_vacio.remover_posicion(ticker="NFLX")
 
+def test_alerta_riesgo_sin_provider_retorna_false(instrumento_test):
+    posicion = Posicion(
+        instrumento=instrumento_test,
+        cantidad=10,
+        precio_entrada=100,
+    )
+
+    assert posicion.alerta_riesgo is False
+
 
 # D) Tests adicionales
 def test_calcular_valor_actual(instrumento_test):
