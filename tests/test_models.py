@@ -28,7 +28,6 @@ def test_calculo_pnl(precio_entrada, precio_actual, cantidad, esperado, instrume
 def test_remover_activo_inexistente_lanza_error(portafolio_vacio):
     with pytest.raises(PosicionNoExisteError):
         portafolio_vacio.remover_posicion(ticker="NFLX")
-        
 
 def test_alerta_riesgo_sin_provider_retorna_false(instrumento_test):
     posicion = Posicion(
@@ -37,7 +36,7 @@ def test_alerta_riesgo_sin_provider_retorna_false(instrumento_test):
         precio_entrada=100,
     )
 
-    assert posicion.alerta_riesgo is False        
+    assert posicion.alerta_riesgo is False
 
 
 # D) Tests adicionales
