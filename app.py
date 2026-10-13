@@ -48,3 +48,33 @@ def consultar_posiciones() -> dict[str, object]:
         "cantidad_posiciones": portafolio.cantidad_posiciones(),
         "posiciones": posiciones,
     }
+
+from pydantic import BaseModel
+
+class NuevaPosicion(BaseModel):
+    ticker: str
+    tipo: str
+    sector: str
+    cantidad: float
+    precio_entrada: float
+
+@app.post("/posiciones")
+def agregar_posicion(nueva: NuevaPosicion) -> dict[str, str]:
+    instrumento = Instrumento(
+        ticker=nueva.ticker,
+        tipo=nueva.tipo,
+        sector=nueva.sector,
+    )
+    posicion = Posicion(
+        instrumento=instrumento,
+        cantidad=nueva.cantidad,
+        precio_entrada=nueva.precio_entrada,
+    )
+    portafolio.agregar_posicion(posicion)
+    return {"mensaje": f"Posición {nueva.ticker} agregada exitosamente"}
+
+@app.get("/resumen")
+def consultar_resumen() -> dict[str, str]:
+    from src.reportes import ReportadorFinanciero
+    reportador = ReportadorFinanciero()
+    return {"resumen": reportador.imprimir_resumen(portafolio)}
