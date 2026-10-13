@@ -134,14 +134,21 @@ Para cumplir con lo que pedía el taller usamos:
 
 ## ⚙️ Cómo instalar el proyecto
 
-Necesitas Python 3.10 o superior.
+Necesitas Python 3.10 o superior y Poetry instalado.
+
+Clona el repositorio e instala las dependencias declaradas en `pyproject.toml` usando el archivo `poetry.lock` incluido. No ejecutes `poetry add` durante la instalación, porque eso modifica las dependencias del proyecto.
 
 ```bash
 git clone https://github.com/mariaclaudiaavendano/smart-portfolio-core.git
 cd smart-portfolio-core
 poetry install
-poetry add scikit-learn yfinance
-poetry add pytest pytest-cov --group dev
+```
+
+Para ejecutar las pruebas automatizadas:
+
+```bash
+export PYTHONPATH=$PWD
+poetry run pytest tests/ -v
 ```
 
 ---
